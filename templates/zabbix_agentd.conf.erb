@@ -1,0 +1,64 @@
+<%- if @osfamily == 'windows' -%>
+sdflsdkfjsdfsdf
+<%- else -%>
+# This is a config file for Zabbix Agent (Unix)
+# To get more information about Zabbix, visit http://www.zabbix.com
+
+############ GENERAL PARAMETERS #################
+
+<%- if @debuglevel == 'none' -%>DebugLevel=0
+<%- elsif @debuglevel == 'critical' -%>DebugLevel=1
+<%- elsif @debuglevel == 'error' -%>DebugLevel=2
+<%- elsif @debuglevel == 'warnings' -%>DebugLevel=3
+<%- elsif @debuglevel == 'debug' -%>DebugLevel=4
+<%- end -%>
+EnableRemoteCommands=<% if @enableremotecommands %>1<% else %>0<% end %>
+LogFile=<%= @logfile %>
+LogFileSize=<%= @logfilesize %>
+LogRemoteCommands=<% if @logremotecommands %>1<% else %>0<% end %>
+PidFile=<%= @pidfile %>
+<%- if @sourceip -%>
+SourceIP=<%= @sourceip %>
+<%- end -%>
+
+##### Passive checks related
+
+Hostname=<%= @fqdn %>
+ListenIP=<%= Array(@listenip).flatten.join(',') %>
+ListenPort=<%= @listenport %>
+Server=<%= Array(@server).flatten.join(',') %>
+
+##### Active checks related
+
+BufferSend=<%= @buffersend %>
+BufferSize=<%= @buffersize %>
+MaxLinesPerSecond=<%= @maxlinespersecond %>
+RefreshActiveChecks=<%= @refreshactivechecks %>
+
+############ ADVANCED PARAMETERS #################
+
+### Option: Alias
+#	Sets an alias for parameter. It can be useful to substitute long and complex parameter name with a smaller and simpler one.
+#
+# Mandatory: no
+# Range:
+# Default:
+
+Include=<%= @include_dir %>
+StartAgents=<%= @startagents %>
+Timeout=<%= @timeout %>
+
+####### USER-DEFINED MONITORED PARAMETERS #######
+
+UnsafeUserParameters=<% if @allowunsafeuserparameters %>1<% else %>0<% end %>
+
+### Option: UserParameter
+#	User-defined parameter to monitor. There can be several user-defined parameters.
+#	Format: UserParameter=<key>,<shell command>
+#	Note that shell command must not return empty string or EOL only.
+#	See 'zabbix_agentd' directory for examples.
+#
+# Mandatory: no
+# Default:
+# UserParameter=
+<%- end -%>

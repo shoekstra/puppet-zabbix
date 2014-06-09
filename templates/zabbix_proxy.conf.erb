@@ -1,0 +1,84 @@
+# This is a configuration file for Zabbix Proxy process
+# To get more information about Zabbix,
+# visit http://www.zabbix.com
+
+############ GENERAL PARAMETERS #################
+
+DBName=<%= scope.lookupvar('zabbix::proxy::sqlite_file') %>
+DBSocket=/var/run/mysqld/mysqld.sock
+<%- if @debuglevel == 'none' -%>DebugLevel=0
+<%- elsif @debuglevel == 'critical' -%>DebugLevel=1
+<%- elsif @debuglevel == 'error' -%>DebugLevel=2
+<%- elsif @debuglevel == 'warnings' -%>DebugLevel=3
+<%- elsif @debuglevel == 'debug' -%>DebugLevel=4
+<%- end -%>
+Hostname=<%= scope.lookupvar('::fqdn') %>
+ListenPort=<%= scope.lookupvar('zabbix::proxy::listenport') %>
+LogFile=<%= scope.lookupvar('zabbix::proxy::logfile') %>
+LogFileSize=<%= scope.lookupvar('zabbix::proxy::logfilesize') %>
+PidFile=<%= scope.lookupvar('zabbix::proxy::pidfile') %>
+ProxyMode=<%- if scope.lookupvar('zabbix::proxy::mode') == 'active' %>1<% else %>0<% end %>
+Server=<%= scope.lookupvar('zabbix::proxy::server') %>
+ServerPort=<%= scope.lookupvar('zabbix::proxy::serverport') %>
+<%- if @sourceip -%>
+SourceIP=<%= scope.lookupvar('zabbix::proxy::sourceip') %>
+<%- end -%>
+
+######### PROXY SPECIFIC PARAMETERS #############
+
+ConfigFrequency=<%= scope.lookupvar('zabbix::proxy::configfrequency') %>
+DataSenderFrequency=<%= scope.lookupvar('zabbix::proxy::datasenderfrequency') %>
+HeartbeatFrequency=<%= scope.lookupvar('zabbix::proxy::heartbeatfrequency') %>
+ProxyLocalBuffer=<%= scope.lookupvar('zabbix::proxy::proxylocalbuffer') %>
+ProxyOfflineBuffer=<%= scope.lookupvar('zabbix::proxy::proxyofflinebuffer') %>
+
+############ ADVANCED PARAMETERS ################
+
+CacheSize=<%= scope.lookupvar('zabbix::proxy::cachesize') %>
+ExternalScripts=<%= scope.lookupvar('zabbix::proxy::externalscripts') %>
+Fping6Location=<%= scope.lookupvar('zabbix::proxy::fping6_bin') %>
+FpingLocation=<%= scope.lookupvar('zabbix::proxy::fping_bin') %>
+HistoryCacheSize=<%= scope.lookupvar('zabbix::proxy::historycachesize') %>
+HistoryTextCacheSize=<%= scope.lookupvar('zabbix::proxy::historytextcachesize') %>
+HousekeepingFrequency=<%= scope.lookupvar('zabbix::proxy::housekeepingfrequency') %>
+<%- Array(@include).each do |i| -%>
+Include=<%= i %>
+<%- end -%>
+<%- if @javagateway -%>
+JavaGateway=<%= scope.lookupvar('zabbix::proxy::javagateway') %>
+<%- end -%>
+JavaGatewayPort=<%= scope.lookupvar('zabbix::proxy::javagatewayport') %>
+ListenIP=<%= Array(@listenip).flatten.join(',') %>
+LogSlowQueries=<%= scope.lookupvar('zabbix::proxy::logslowqueries') %>
+SNMPTrapperFile=<%= scope.lookupvar('zabbix::proxy::tmpdir') %>/zabbix_traps.tmp
+<%- if @sshkeylocation -%>
+SSHKeyLocation=<%= scope.lookupvar('zabbix::proxy::sshkeylocation') %>
+<%- end -%>
+StartDBSyncers=<%= scope.lookupvar('zabbix::proxy::startdbsyncers') %>
+StartDiscoverers=<%= scope.lookupvar('zabbix::proxy::startdiscoverers') %>
+StartHTTPPollers=<%= scope.lookupvar('zabbix::proxy::starthttppollers') %>
+StartIPMIPollers=<%= scope.lookupvar('zabbix::proxy::startipmipollers') %>
+StartJavaPollers=<%= scope.lookupvar('zabbix::proxy::startjavapollers') %>
+StartPingers=<%= scope.lookupvar('zabbix::proxy::startpingers') %>
+StartPollers=<%= scope.lookupvar('zabbix::proxy::startpollers') %>
+StartPollersUnreachable=<%= scope.lookupvar('zabbix::proxy::startpollersunreachable') %>
+StartSNMPTrapper=<% if scope.lookupvar('zabbix::proxy::startsnmptrapper') %>1<% else %>0<% end %>
+StartTrappers=<%= scope.lookupvar('zabbix::proxy::starttrappers') %>
+StartVMwareCollectors=<%= scope.lookupvar('zabbix::proxy::startvmwarecollectors') %>
+Timeout=<%= scope.lookupvar('zabbix::proxy::timeout') %>
+TmpDir=<%= scope.lookupvar('zabbix::proxy::tmpdir') %>
+TrapperTimeout=<%= scope.lookupvar('zabbix::proxy::trappertimeout') %>
+UnavailableDelay=<%= scope.lookupvar('zabbix::proxy::unavailabledelay') %>
+UnreachableDelay=<%= scope.lookupvar('zabbix::proxy::unreachabledelay') %>
+UnreachablePeriod=<%= scope.lookupvar('zabbix::proxy::unreachableperiod') %>
+VMwareCacheSize=<%= scope.lookupvar('zabbix::proxy::vmwarecachesize') %>
+VMwareFrequency=<%= scope.lookupvar('zabbix::proxy::vmwarefrequency') %>
+
+####### LOADABLE MODULES #######
+
+<%- if @loadmodulepath -%>
+LoadModulePath=<%= scope.lookupvar('zabbix::proxy::loadmodulepath') %>
+<%- end -%>
+<%- Array(@loadmodule).each do |m| -%>
+LoadModule=<%= m %>
+<%- end -%>

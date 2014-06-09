@@ -1,0 +1,88 @@
+# This is a configuration file for Zabbix Server process
+# To get more information about Zabbix,
+# visit http://www.zabbix.com
+
+############ GENERAL PARAMETERS #################
+
+DBHost=<%= @dbhost %>
+DBName=<%= @dbname %>
+DBPassword=<%= @dbpass %>
+DBPort=<%= @dbport %>
+DBSocket=<%= @dbsocket %>
+DBUser=<%= @dbuser %>
+<%- if @debuglevel == 'none' -%>DebugLevel=0
+<%- elsif @debuglevel == 'critical' -%>DebugLevel=1
+<%- elsif @debuglevel == 'error' -%>DebugLevel=2
+<%- elsif @debuglevel == 'warnings' -%>DebugLevel=3
+<%- elsif @debuglevel == 'debug' -%>DebugLevel=4
+<%- end -%>
+ListenPort=<%= @listenport %>
+LogFile=<%= @logfile %>
+LogFileSize=<%= @logfilesize %>
+PidFile=<%= @pidfile %>
+<%- if @sourceip -%>
+SourceIP=<%= @sourceip %>
+<%- end -%>
+
+############ ADVANCED PARAMETERS ################
+
+AlertScriptsPath=<%= @alertscriptspath %>
+CacheSize=<%= @cachesize %>
+CacheUpdateFrequency=<%= @cacheupdatefrequency %>
+ExternalScripts=<%= @externalscripts %>
+Fping6Location=<%= @fping6_bin %>
+FpingLocation=<%= @fping_bin %>
+HistoryCacheSize=<%= @historycachesize %>
+HistoryTextCacheSize=<%= @historytextcachesize %>
+HousekeepingFrequency=<%= @housekeepingfrequency %>
+<%- Array(@include).each do |i| -%>
+Include=<%= i %>
+<%- end -%>
+<%- if @javagateway -%>
+JavaGateway=<%= @javagateway %>
+<%- end -%>
+JavaGatewayPort=<%= @javagatewayport %>
+ListenIP=<%= Array(@listenip).flatten.join(',') %>
+LogSlowQueries=<%= @logslowqueries %>
+MaxHousekeeperDelete=<%= @maxhousekeeperdelete %>
+NodeNoEvents=<% if @nodenoevents %>1<% else %>0<% end %>
+NodeNoHistory=<% if @nodenohistory %>1<% else %>0<% end %>
+ProxyConfigFrequency=<%= @proxyconfigfrequency %>
+ProxyDataFrequency=<%= @proxydatafrequency %>
+SNMPTrapperFile=<%= @tmpdir %>/zabbix_traps.tmp
+SenderFrequency=<%= @senderfrequency %>
+<%- if @sshkeylocation -%>
+SSHKeyLocation=<%= @sshkeylocation %>
+<%- end -%>
+StartDBSyncers=<%= @startdbsyncers %>
+StartDiscoverers=<%= @startdiscoverers %>
+StartHTTPPollers=<%= @starthttppollers %>
+StartIPMIPollers=<%= @startipmipollers %>
+StartJavaPollers=<%= @startjavapollers %>
+StartPingers=<%= @startpingers %>
+StartPollers=<%= @startpollers %>
+StartPollersUnreachable=<%= @startpollersunreachable %>
+StartProxyPollers=<%= @startproxypollers %>
+StartSNMPTrapper=<% if @startsnmptrapper %>1<% else %>0<% end %>
+StartTimers=<%= @starttimers %>
+StartTrappers=<%= @starttrappers %>
+StartVMwareCollectors=<%= @startvmwarecollectors %>
+Timeout=<%= @timeout %>
+TmpDir=<%= @tmpdir %>
+TrapperTimeout=<%= @trappertimeout %>
+TrendCacheSize=<%= @trendcachesize %>
+UnavailableDelay=<%= @unavailabledelay %>
+UnreachableDelay=<%= @unreachabledelay %>
+UnreachablePeriod=<%= @unreachableperiod %>
+VMwareCacheSize=<%= @vmwarecachesize %>
+VMwareFrequency=<%= @vmwarefrequency %>
+ValueCacheSize=<%= @valuecachesize %>
+
+####### LOADABLE MODULES #######
+
+<%- if @loadmodulepath -%>
+LoadModulePath=<%= @loadmodulepath %>
+<%- end -%>
+<%- Array(@loadmodule).each do |m| -%>
+LoadModule=<%= m %>
+<%- end -%>
